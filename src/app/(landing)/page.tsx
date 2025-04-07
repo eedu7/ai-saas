@@ -7,10 +7,16 @@ function LandingPage() {
         <div>
             Landing Page (Unprotected)
             <div>
-                <Button asChild>
+                <Button
+                    asChild
+                    className="cursor-pointer"
+                >
                     <SignInButton />
                 </Button>
-                <Button asChild>
+                <Button
+                    asChild
+                    className="cursor-pointer"
+                >
                     <SignUpButton />
                 </Button>
             </div>

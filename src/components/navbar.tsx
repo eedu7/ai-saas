@@ -1,10 +1,11 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
+import { UserButton } from "@clerk/nextjs";
 
 export const Navbar = () => {
     return (
-        <nav className="flex items-center p-4">
+        <div className="flex items-center p-4">
             <Button
                 variant="ghost"
                 size="icon"
@@ -12,6 +13,9 @@ export const Navbar = () => {
             >
                 <Menu />
             </Button>
-        </nav>
+            <div className="flex w-full justify-end">
+                <UserButton />
+            </div>
+        </div>
     );
 };

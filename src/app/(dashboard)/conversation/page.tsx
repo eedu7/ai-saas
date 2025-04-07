@@ -4,7 +4,7 @@ import { MessageSquareIcon } from "lucide-react";
 
 function ConversationPage() {
     return (
-        <header>
+        <div>
             <Heading
                 title="Conversation"
                 description="Our most advance conversation model"
@@ -12,7 +12,8 @@ function ConversationPage() {
                 iconColor="text-violet-500"
                 bgColor="text-violet-500/10"
             />
-        </header>
+            <div className="px-4 lg:px-8"></div>
+        </div>
     );
 }
 

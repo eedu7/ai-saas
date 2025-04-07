@@ -4,6 +4,7 @@ import React from "react";
 import { ArrowRightIcon, CodeIcon, ImageIcon, LucideIcon, MessageSquareIcon, MusicIcon, VideoIcon } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const tools: { label: string; icon: LucideIcon; color: string; bgColor: string; href: string }[] = [
     {
@@ -44,6 +45,7 @@ const tools: { label: string; icon: LucideIcon; color: string; bgColor: string; 
 ];
 
 export default function DashboardPage() {
+    const router = useRouter();
     return (
         <div>
             <div className="mb-8 space-y-4">
@@ -55,6 +57,7 @@ export default function DashboardPage() {
             <nav className="space-y-4 px-4 md:px-20 lg:px-32">
                 {tools.map(({ label, icon: Icon, color, bgColor, href }) => (
                     <Card
+                        onClick={() => router.push(href)}
                         key={href}
                         className="flex cursor-pointer flex-row items-center justify-between border-black/5 p-4 transition hover:shadow-md"
                     >

@@ -2,20 +2,11 @@ import OpenAI from "openai";
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 
-// NOTE: This is for connecting with Google GenAI
-// const API_KEY = process.env.GOOGLE_API_KEY!;
-// const openAi = new OpenAI({
-//     apiKey: API_KEY,
-//     baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
-// });
-
-// NOTE: This is for connecting with Local Ollama Models
-
-const API_KEY = "ollama";
-
+// NOTE: This is for connecting with Google GenAI using OpenAI
+const API_KEY = process.env.GOOGLE_API_KEY!;
 const openAi = new OpenAI({
     apiKey: API_KEY,
-    baseURL: "http://localhost:11434/v1",
+    baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
 });
 
 export async function POST(req: Request) {
@@ -31,14 +22,8 @@ export async function POST(req: Request) {
 
         if (!messages) return new NextResponse("Messages are required", { status: 400 });
 
-        // NOTE: This is connecting with Google Gemini model
-        // const response = await openAi.chat.completions.create({
-        //     model: "gemini-2.0-flash",
-        //     messages,
-        // });
-
         const response = await openAi.chat.completions.create({
-            model: "qwen2.5:14b",
+            model: "gemini-2.0-flash",
             messages,
         });
 

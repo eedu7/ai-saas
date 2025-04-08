@@ -18,6 +18,8 @@ import { Empty } from "@/components/empty";
 import { ChatCompletionMessage } from "openai/resources/chat/completions";
 import { Loader } from "@/components/Loader";
 import { cn } from "@/lib/utils";
+import { BotAvatar } from "@/components/bot-avatar";
+import { UserAvatar } from "@/components/user-avatar";
 
 function ConversationPage() {
     const router = useRouter();
@@ -114,11 +116,12 @@ function ConversationPage() {
                                 <div
                                     key={message.content}
                                     className={cn(
-                                        "flex w-full items-start gap-x-8 rounded-lg p-8",
+                                        "flex w-full flex-row items-start gap-x-8 rounded-lg p-8",
                                         message.role === "assistant" ? "bg-muted" : "border border-black/10 bg-white",
                                     )}
                                 >
-                                    {message.content}
+                                    {message.role === "assistant" ? <BotAvatar /> : <UserAvatar />}
+                                    <p className="text-sm">{message.content}</p>
                                 </div>
                             ))}
                         </div>

@@ -7,7 +7,7 @@ interface useProModelInterface {
 }
 
 export const useProModel = create<useProModelInterface>((set) => ({
-    isOpen: false,
+    isOpen: true, // TODO: change back to false
     onOpen: () => set({ isOpen: true }),
     onClose: () => set({ isOpen: false }),
 }));

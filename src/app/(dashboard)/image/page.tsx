@@ -12,10 +12,11 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { Empty } from "@/components/empty";
 import { Loader } from "@/components/Loader";
-import { formSchema } from "@/app/(dashboard)/image/constants";
+import { amountOptions, formSchema, resolutionOptions } from "@/app/(dashboard)/image/constants";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import axios from "axios";
 
 function ImagePage() {
     const router = useRouter();
@@ -39,6 +40,11 @@ function ImagePage() {
             setImages([]);
 
             const response = await axios.post("/api/image", values);
+
+            // TODO: Add types
+            const url = response.data.map((image, { url }) => image.url);
+
+            setImages(url);
 
             form.reset();
         } catch (error: any) {
@@ -68,20 +74,80 @@ function ImagePage() {
                             <FormField
                                 name="prompt"
                                 render={({ field }) => (
-                                    <FormItem className="col-span-12 lg:col-span-10">
+                                    <FormItem className="col-span-12 lg:col-span-6">
                                         <FormControl className="m-0 p-0">
                                             <Input
                                                 className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                                                 disabled={isLoading}
-                                                placeholder="How do calculate the radius of a circle?"
+                                                placeholder="A picture of a horse in Swiss alps."
                                                 {...field}
                                             />
                                         </FormControl>
                                     </FormItem>
                                 )}
                             />
+                            <FormField
+                                name="amount"
+                                control={form.control}
+                                render={({ field }) => (
+                                    <FormItem className="col-span-12 lg:col-span-2">
+                                        <Select
+                                            disabled={isLoading}
+                                            onValueChange={field.onChange}
+                                            value={field.value}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue defaultValue={field.value} />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {amountOptions.map(({ value, label }) => (
+                                                    <SelectItem
+                                                        value={value}
+                                                        key={value}
+                                                    >
+                                                        {label}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                name="resolution"
+                                control={form.control}
+                                render={({ field }) => (
+                                    <FormItem className="col-span-12 lg:col-span-2">
+                                        <Select
+                                            disabled={isLoading}
+                                            onValueChange={field.onChange}
+                                            value={field.value}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue defaultValue={field.value} />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {resolutionOptions.map(({ value, label }) => (
+                                                    <SelectItem
+                                                        value={value}
+                                                        key={value}
+                                                    >
+                                                        {label}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </FormItem>
+                                )}
+                            />
                             <Button
-                                className="col-span-12 w-full lg:col-span-2"
+                                className="col-span-12 w-full cursor-pointer lg:col-span-2"
                                 disabled={isLoading}
                             >
                                 Generate

@@ -93,7 +93,7 @@ function CodePage() {
                                 )}
                             />
                             <Button
-                                className="col-span-12 w-full lg:col-span-2"
+                                className="col-span-12 w-full cursor-pointer lg:col-span-2"
                                 disabled={isLoading}
                             >
                                 Generate

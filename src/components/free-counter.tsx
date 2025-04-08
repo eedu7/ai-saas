@@ -11,17 +11,20 @@ export const FreeCounter = ({ apiLimitCount = 0 }: { apiLimitCount: number }) =>
     return (
         <div className="px-3">
             <Card className="border-0 bg-white/10">
-                <CardContent className="py-6">
+                <CardContent>
                     <div className="mb-4 space-y-2 text-center text-sm text-white">
                         <p>
                             {apiLimitCount} / {MAX_FREE_COUNTS} Free Generations
                         </p>
                         <Progress
-                            className="h-3"
+                            className="h-3 bg-white"
                             value={(apiLimitCount / MAX_FREE_COUNTS) * 100}
                         />
                     </div>
-                    <Button className="w-full">
+                    <Button
+                        variant="premium"
+                        className="w-full cursor-pointer"
+                    >
                         <span>Upgrade</span>
                         <ZapIcon className="ml-2 size-4 fill-white" />
                     </Button>

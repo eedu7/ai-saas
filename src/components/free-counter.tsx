@@ -4,8 +4,11 @@ import { MAX_FREE_COUNTS } from "@/constants";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { ZapIcon } from "lucide-react";
+import { useProModel } from "@/hooks/use-pro-model";
 
 export const FreeCounter = ({ apiLimitCount = 0 }: { apiLimitCount: number }) => {
+    const { onOpen } = useProModel();
+
     return (
         <div className="px-3">
             <Card className="border-0 bg-white/10">
@@ -20,6 +23,7 @@ export const FreeCounter = ({ apiLimitCount = 0 }: { apiLimitCount: number }) =>
                         />
                     </div>
                     <Button
+                        onClick={onOpen}
                         variant="premium"
                         className="w-full cursor-pointer"
                     >

@@ -73,7 +73,7 @@ function ConversationPage() {
                 <div>
                     <Form {...form}>
                         <form
-                            onClick={form.handleSubmit(onSubmit)}
+                            onSubmit={form.handleSubmit(onSubmit)}
                             className="grid w-full grid-cols-12 gap-2 rounded-lg border p-4 px-3 focus-within:shadow-sm md:px-6"
                         >
                             <FormField
@@ -120,6 +120,7 @@ function ConversationPage() {
                                         message.role === "assistant" ? "bg-muted" : "border border-black/10 bg-white",
                                     )}
                                 >
+                                    {/* TODO: Make it in the Markdown */}
                                     {message.role === "assistant" ? <BotAvatar /> : <UserAvatar />}
                                     <p className="text-sm">{message.content}</p>
                                 </div>

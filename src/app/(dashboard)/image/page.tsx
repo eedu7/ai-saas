@@ -72,7 +72,7 @@ function ImagePage() {
                 <div>
                     <Form {...form}>
                         <form
-                            onClick={form.handleSubmit(onSubmit)}
+                            onSubmit={form.handleSubmit(onSubmit)}
                             className="grid w-full grid-cols-12 gap-2 rounded-lg border p-4 px-3 focus-within:shadow-sm md:px-6"
                         >
                             <FormField

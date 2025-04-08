@@ -1,6 +1,7 @@
 import OpenAI from "openai";
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
+import { checkApiLimit, increaseApiLimit } from "@/lib/api-limit";
 
 // NOTE: This is for connecting with Google GenAI using OpenAI
 const API_KEY = process.env.GOOGLE_API_KEY!;
@@ -29,12 +30,21 @@ export async function POST(req: Request) {
 
         if (!messages) return new NextResponse("Messages are required", { status: 400 });
 
-        const response = await openAi.chat.completions.create({
-            model: "gemini-2.0-flash",
-            messages: [instructionsMessage, ...messages],
-        });
+        const freeTrial = await checkApiLimit();
 
-        return NextResponse.json(response.choices[0].message);
+        if (!freeTrial) {
+            return new NextResponse("Free trial has expired", {
+                status: 403,
+            });
+        } else {
+            const response = await openAi.chat.completions.create({
+                model: "gemini-2.0-flash",
+                messages: [instructionsMessage, ...messages],
+            });
+            await increaseApiLimit();
+
+            return NextResponse.json(response.choices[0].message);
+        }
     } catch (error) {
         console.log("[CODE_ERROR]", error);
         return new NextResponse("Internal error", {

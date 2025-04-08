@@ -1,6 +1,7 @@
 import OpenAI from "openai";
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
+import { checkApiLimit, increaseApiLimit } from "@/lib/api-limit";
 
 // NOTE: This is for connecting with Google GenAI using OpenAI
 const API_KEY = process.env.OPENAI_API_KEY!;
@@ -21,14 +22,22 @@ export async function POST(req: Request) {
 
         if (!prompt) return new NextResponse("Prompt is required", { status: 400 });
 
-        const response = await openAi.images.generate({
-            model: "dall-e-2",
-            prompt: prompt,
-            n: parseInt(amount, 10),
-            size: resolution,
-        });
+        const freeTrial = await checkApiLimit();
 
-        return NextResponse.json(response.data);
+        if (!freeTrial) {
+            return new NextResponse("Free trial has expired", {
+                status: 403,
+            });
+        } else {
+            const response = await openAi.images.generate({
+                model: "dall-e-2",
+                prompt: prompt,
+                n: parseInt(amount, 10),
+                size: resolution,
+            });
+            await increaseApiLimit();
+            return NextResponse.json(response.data);
+        }
     } catch (error) {
         console.log("[CODE_ERROR]", error);
         return new NextResponse("Internal error", {

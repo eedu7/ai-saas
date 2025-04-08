@@ -14,11 +14,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { Empty } from "@/components/empty";
+import { ChatCompletionMessage } from "openai/resources/chat/completions";
+import { Loader } from "@/components/Loader";
+import { cn } from "@/lib/utils";
 
 function ConversationPage() {
     const router = useRouter();
 
-    const [messages, setMessages] = React.useState([]);
+    const [messages, setMessages] = React.useState<ChatCompletionMessage[]>([]);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -38,7 +42,7 @@ function ConversationPage() {
 
             const newMessages = [...messages, userMessage];
 
-            const response = await axios.post("/api/conversation", {
+            const response = await axios.post<ChatCompletionMessage>("/api/conversation", {
                 messages: newMessages,
             });
 
@@ -54,7 +58,6 @@ function ConversationPage() {
         }
     };
 
-    // @ts-ignore
     return (
         <div>
             <Heading
@@ -95,9 +98,28 @@ function ConversationPage() {
                         </form>
                     </Form>
                     <div className="mt-4 space-y-4">
+                        {isLoading && (
+                            <div className="bg-muted flex w-full items-center justify-center rounded-lg p-8">
+                                <Loader />
+                            </div>
+                        )}
+                        {messages.length === 0 && !isLoading && (
+                            <Empty
+                                imageSrc="/empty.svg"
+                                label="No conversation started"
+                            />
+                        )}
                         <div className="flex flex-col-reverse gap-y-4">
                             {messages.map((message) => (
-                                <div key={message.content}>{message.content}</div>
+                                <div
+                                    key={message.content}
+                                    className={cn(
+                                        "flex w-full items-start gap-x-8 rounded-lg p-8",
+                                        message.role === "assistant" ? "bg-muted" : "border border-black/10 bg-white",
+                                    )}
+                                >
+                                    {message.content}
+                                </div>
                             ))}
                         </div>
                     </div>

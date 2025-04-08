@@ -6,8 +6,10 @@ import { prismaDb } from "@/lib/prisma-client";
 
 export async function POST(req: Request) {
     const body = await req.text();
-    // @ts-ignore
-    const signature = (await headers().get("Stripe-Signature")) as string;
+
+    const head = await headers();
+
+    const signature = head.get("Stripe-Signature") as string;
 
     let event: Stripe.Event;
 

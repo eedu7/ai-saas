@@ -12,8 +12,14 @@ import { Heading } from "@/components/heading";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 function ConversationPage() {
+    const router = useRouter();
+
+    const [messages, setMessages] = React.useState([]);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -24,9 +30,31 @@ function ConversationPage() {
     const isLoading = form.formState.isSubmitting;
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.table(values);
+        try {
+            const userMessage = {
+                role: "user",
+                content: values.prompt,
+            };
+
+            const newMessages = [...messages, userMessage];
+
+            const response = await axios.post("/api/conversation", {
+                messages: newMessages,
+            });
+
+            // @ts-ignore
+            setMessages((current) => [...current, userMessage, response.data]);
+
+            form.reset();
+        } catch (error: any) {
+            // TODO: Open Pro model
+            console.error(error);
+        } finally {
+            router.refresh();
+        }
     };
 
+    // @ts-ignore
     return (
         <div>
             <Heading
@@ -66,7 +94,13 @@ function ConversationPage() {
                             </Button>
                         </form>
                     </Form>
-                    <div className="mt-4 space-y-4">Messages Content</div>
+                    <div className="mt-4 space-y-4">
+                        <div className="flex flex-col-reverse gap-y-4">
+                            {messages.map((message) => (
+                                <div key={message.content}>{message.content}</div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

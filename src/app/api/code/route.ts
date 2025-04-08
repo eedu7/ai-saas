@@ -14,7 +14,8 @@ const instructionsMessage = {
     role: "system",
     content:
         "You are a code generator. You must answer only in markdown code snippets. Use code comments for" +
-        " explanation.",
+        " explanation. Also explain each step and your thought process of creating code. the code should be simple" +
+        " and concise and also handle edge cases",
 };
 
 export async function POST(req: Request) {

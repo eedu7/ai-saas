@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ImageIcon } from "lucide-react";
+import { DownloadIcon, ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 import { z } from "zod";
@@ -17,6 +17,8 @@ import { Loader } from "@/components/Loader";
 import { amountOptions, formSchema, resolutionOptions } from "@/app/(dashboard)/image/constants";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import axios from "axios";
+import { Card, CardFooter } from "@/components/ui/card";
+import Image from "next/image";
 
 function ImagePage() {
     const router = useRouter();
@@ -168,7 +170,32 @@ function ImagePage() {
                                 label="No images generated"
                             />
                         )}
-                        <div>Images will be rendered here</div>
+                        <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                            {images.map((src) => (
+                                <Card
+                                    key={src}
+                                    className="overflow-hidden rounded-lg"
+                                >
+                                    <div className="relative aspect-square">
+                                        <Image
+                                            src={src}
+                                            alt="Image"
+                                            fill
+                                        />
+                                    </div>
+                                    <CardFooter className="p-2">
+                                        <Button
+                                            onClick={() => window.open(src)}
+                                            variant="secondary"
+                                            className="w-full"
+                                        >
+                                            <DownloadIcon className="mr-2 size-4 cursor-pointer" />
+                                            Download
+                                        </Button>
+                                    </CardFooter>
+                                </Card>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

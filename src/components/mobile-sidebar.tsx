@@ -5,7 +5,11 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/s
 import { DocumentSidebar } from "@/components/document-sidebar";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
-export const MobileSidebar = () => {
+interface MobileSidebarProps {
+    apiLimitCount: number;
+}
+
+export const MobileSidebar = ({ apiLimitCount = 0 }: MobileSidebarProps) => {
     return (
         <Sheet>
             <SheetTrigger asChild>
@@ -24,7 +28,7 @@ export const MobileSidebar = () => {
                 <VisuallyHidden>
                     <SheetTitle>AI SaaS</SheetTitle>
                 </VisuallyHidden>
-                <DocumentSidebar />
+                <DocumentSidebar apiLimitCount={apiLimitCount} />
             </SheetContent>
         </Sheet>
     );

@@ -6,8 +6,6 @@ import { Button } from "@/components/ui/button";
 import { ZapIcon } from "lucide-react";
 
 export const FreeCounter = ({ apiLimitCount = 0 }: { apiLimitCount: number }) => {
-    const [mounted, setMounted] = React.useState(false);
-
     return (
         <div className="px-3">
             <Card className="border-0 bg-white/10">

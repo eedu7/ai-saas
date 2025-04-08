@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { MessageSquareIcon } from "lucide-react";
+import { ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 import { z } from "zod";
@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 import { BotAvatar } from "@/components/bot-avatar";
 import { UserAvatar } from "@/components/user-avatar";
 
-function ConversationPage() {
+function ImagePage() {
     const router = useRouter();
 
     const [messages, setMessages] = React.useState<ChatCompletionMessage[]>([]);
@@ -63,11 +63,11 @@ function ConversationPage() {
     return (
         <div>
             <Heading
-                title="Conversation"
-                description="Our most advance conversation model"
-                icon={MessageSquareIcon}
-                iconColor="text-violet-500"
-                bgColor="text-violet-500/10"
+                title="Image Generation"
+                description="Turn your prompt into an image."
+                icon={ImageIcon}
+                iconColor="text-pink-700"
+                bgColor="text-pink-700/10"
             />
             <div className="px-4 lg:px-8">
                 <div>
@@ -107,7 +107,7 @@ function ConversationPage() {
                         )}
                         {messages.length === 0 && !isLoading && (
                             <Empty
-                                imageSrc="/empty.svg"
+                                imageSrc="/image.svg"
                                 label="No conversation started"
                             />
                         )}
@@ -132,4 +132,4 @@ function ConversationPage() {
     );
 }
 
-export default ConversationPage;
+export default ImagePage;

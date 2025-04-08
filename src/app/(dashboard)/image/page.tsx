@@ -19,9 +19,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import axios from "axios";
 import { Card, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
+import { useProModel } from "@/hooks/use-pro-model";
 
 function ImagePage() {
     const router = useRouter();
+
+    const proModal = useProModel();
 
     const [images, setImages] = useState<string[]>([]);
 
@@ -52,8 +55,9 @@ function ImagePage() {
 
             form.reset();
         } catch (error: any) {
-            // TODO: Open Pro model
-            console.error(error);
+            if (error?.response?.status === 403) {
+                proModal.onOpen();
+            }
         } finally {
             router.refresh();
         }

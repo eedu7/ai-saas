@@ -75,7 +75,8 @@ export const ProModal = () => {
                     <Button
                         onClick={onSubscribe}
                         variant="premium"
-                        className="w-full"
+                        disabled={loading}
+                        className="w-full cursor-pointer"
                     >
                         Upgrade
                         <ZapIcon className="ml-2 size-4 fill-white" />

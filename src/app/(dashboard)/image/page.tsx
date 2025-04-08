@@ -42,7 +42,9 @@ function ImagePage() {
             const response = await axios.post("/api/image", values);
 
             // TODO: Add types
-            const url = response.data.map((image, { url }) => image.url);
+            // @ts-ignore
+            const url = response.data.map((image: { url: string }) => image.url);
+            // const url = response.data.map((image) => image.url);
 
             setImages(url);
 

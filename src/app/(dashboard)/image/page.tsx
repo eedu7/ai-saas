@@ -187,9 +187,9 @@ function ImagePage() {
                                         <Button
                                             onClick={() => window.open(src)}
                                             variant="secondary"
-                                            className="w-full"
+                                            className="w-full cursor-pointer"
                                         >
-                                            <DownloadIcon className="mr-2 size-4 cursor-pointer" />
+                                            <DownloadIcon className="mr-2 size-4" />
                                             Download
                                         </Button>
                                     </CardFooter>

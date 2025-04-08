@@ -1,8 +1,13 @@
 "use client";
 import React from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useProModel } from "@/hooks/use-pro-model";
 import { Badge } from "@/components/ui/badge";
+import { tools } from "@/constants/tools";
+import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { CheckIcon, LockIcon, ZapIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const ProModal = () => {
     const { isOpen, onClose } = useProModel();
@@ -25,7 +30,41 @@ export const ProModal = () => {
                             </Badge>
                         </div>
                     </DialogTitle>
+                    <div className="space-y-2 pt-2 text-center font-medium text-zinc-900">
+                        {tools.map(({ label, icon: Icon, color, bgColor, href, disable }) => (
+                            <Card
+                                key={label}
+                                className={cn(
+                                    "flex cursor-pointer flex-row items-center justify-between border-black/5 p-3" +
+                                        " transition",
+                                    !disable && "hover:shadow-md",
+                                    disable && "text-muted-foreground cursor-default bg-gray-100",
+                                )}
+                            >
+                                <div className="flex items-center gap-x-4">
+                                    <div className={cn("w-fit rounded-md p-2", bgColor)}>
+                                        <Icon className={cn("size-6", color)} />
+                                    </div>
+                                    <div className="text-sm font-semibold">{label}</div>
+                                </div>
+                                {disable ? (
+                                    <LockIcon className="size-5" />
+                                ) : (
+                                    <CheckIcon className="text-primary size-5" />
+                                )}
+                            </Card>
+                        ))}
+                    </div>
                 </DialogHeader>
+                <DialogFooter>
+                    <Button
+                        variant="premium"
+                        className="w-full"
+                    >
+                        Upgrade
+                        <ZapIcon className="ml-2 size-4 fill-white" />
+                    </Button>
+                </DialogFooter>
             </DialogContent>
         </Dialog>
     );

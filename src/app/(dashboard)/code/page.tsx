@@ -20,6 +20,7 @@ import { Loader } from "@/components/Loader";
 import { cn } from "@/lib/utils";
 import { BotAvatar } from "@/components/bot-avatar";
 import { UserAvatar } from "@/components/user-avatar";
+import ReactMarkdown from "react-markdown";
 
 function CodePage() {
     const router = useRouter();
@@ -121,7 +122,25 @@ function CodePage() {
                                     )}
                                 >
                                     {message.role === "assistant" ? <BotAvatar /> : <UserAvatar />}
-                                    <p className="text-sm">{message.content}</p>
+                                    <div className="overflow-hidden text-sm leading-7">
+                                        <ReactMarkdown
+                                            components={{
+                                                pre: ({ node, ...props }) => (
+                                                    <div className="my-2 w-full overflow-auto rounded-lg bg-black/10 p-2">
+                                                        <pre {...props} />
+                                                    </div>
+                                                ),
+                                                code: ({ node, ...props }) => (
+                                                    <code
+                                                        className="rounded-lg bg-black/10 p-1"
+                                                        {...props}
+                                                    />
+                                                ),
+                                            }}
+                                        >
+                                            {message.content || ""}
+                                        </ReactMarkdown>
+                                    </div>
                                 </div>
                             ))}
                         </div>

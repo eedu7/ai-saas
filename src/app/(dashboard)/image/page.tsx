@@ -5,7 +5,6 @@ import { ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 import { z } from "zod";
-import { formSchema } from "@/app/(dashboard)/conversation/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Heading } from "@/components/heading";
@@ -16,6 +15,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Empty } from "@/components/empty";
 import { Loader } from "@/components/Loader";
+import { formSchema } from "@/app/(dashboard)/image/constants";
 
 function ImagePage() {
     const router = useRouter();
@@ -26,6 +26,8 @@ function ImagePage() {
         resolver: zodResolver(formSchema),
         defaultValues: {
             prompt: "",
+            amount: "1",
+            resolution: "256x256",
         },
     });
 
@@ -33,7 +35,10 @@ function ImagePage() {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            const response = await axios.post("/api/image", {});
+            // Resetting images
+            setImages([]);
+
+            const response = await axios.post("/api/image", values);
 
             form.reset();
         } catch (error: any) {
@@ -85,7 +90,7 @@ function ImagePage() {
                     </Form>
                     <div className="mt-4 space-y-4">
                         {isLoading && (
-                            <div className="bg-muted flex w-full items-center justify-center rounded-lg p-8">
+                            <div className="p-20">
                                 <Loader />
                             </div>
                         )}

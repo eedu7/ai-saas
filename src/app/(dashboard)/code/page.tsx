@@ -5,7 +5,7 @@ import { CodeIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 import { z } from "zod";
-import { formSchema } from "@/app/(dashboard)/conversation/constants";
+import { formSchema } from "@/app/(dashboard)/code/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Heading } from "@/components/heading";

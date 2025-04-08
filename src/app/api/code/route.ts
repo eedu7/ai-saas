@@ -13,9 +13,7 @@ const openAi = new OpenAI({
 const instructionsMessage = {
     role: "system",
     content:
-        "You are a code generator. You must answer only in markdown code snippets. Use code comments for" +
-        " explanation. Also explain each step and your thought process of creating code. the code should be simple" +
-        " and concise and also handle edge cases",
+        "You are a highly skilled Senior Full Stack Developer with 10+ years of experience in building scalable web applications. Your job is to generate clean, production-ready code for both frontend and backend tasks using modern technologies. You understand best practices, write well-structured code, and include helpful comments where necessary. Please follow the user's instructions carefully and output only the requested code",
 };
 
 export async function POST(req: Request) {

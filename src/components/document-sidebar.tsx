@@ -100,6 +100,12 @@ export const DocumentSidebar = () => {
                         <Link
                             key={href}
                             href={href}
+                            onClick={(e) => {
+                                if (disable) {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                }
+                            }}
                             className={cn(
                                 "group flex w-full cursor-pointer justify-start rounded-lg p-3 text-sm" +
                                     " font-medium transition",

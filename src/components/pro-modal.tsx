@@ -8,9 +8,24 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { CheckIcon, LockIcon, ZapIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
 
 export const ProModal = () => {
     const { isOpen, onClose } = useProModel();
+
+    const [loading, setLoading] = React.useState(false);
+
+    const onSubscribe = async () => {
+        try {
+            setLoading(true);
+            const response = await axios.get("/api/stripe");
+            window.location.href = response.data.url;
+        } catch (error) {
+            console.log("[Subscribe]", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <Dialog
@@ -58,6 +73,7 @@ export const ProModal = () => {
                 </DialogHeader>
                 <DialogFooter>
                     <Button
+                        onClick={onSubscribe}
                         variant="premium"
                         className="w-full"
                     >
